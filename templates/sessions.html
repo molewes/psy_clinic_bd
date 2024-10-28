@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Сеансы</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Список Сеансов</h1>
+    <form action="/total_session_duration_per_patient" method="GET">
+        <button type="submit"> Суммарная продолжительность сеансов каждого пациента</button>
+    </form>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Дата и время начала</th>
+                <th>Длительность</th>
+                <th>Пациент</th>
+                <th>Специалист</th>
+                <th>Тип сеанса</th>
+                <th>Примечания</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for session in sessions %}
+            <tr>
+                <td>{{ session.sessions_id }}</td>
+                <td>{{ session.start_datetime }}</td>
+                <td>{{ session.duration }}</td>
+                <td>{{ session.patient.name }} {{ session.patient.surname }}</td>
+                <td>{{ session.specialist.name }} {{ session.specialist.surname }}</td>
+                <td>{{ session.session_type }}</td>
+                <td>{{ session.notes }}</td>
+                <td>
+                    <form action="{{ url_for('delete_session', sessions_id=session.sessions_id) }}" method="post" style="display:inline;">
+                        <button type="submit" class="btn btn-danger">Удалить</button>
+                    </form>
+                    <form action="{{ url_for('edit_session', sessions_id=session.sessions_id) }}" method="GET">
+                        <button type="submit">Редактировать</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{{ url_for('index') }}">Вернуться на главную страницу</a>
+</body>
+</html>

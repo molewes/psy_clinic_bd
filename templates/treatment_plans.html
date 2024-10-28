@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Планы лечения</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Treatment Plans</h1>
+    <table >
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Описание</th>
+                <th>Методы</th>
+                <th>Начало лечения</th>
+                <th>Окончание лечения</th>
+                <th>Пациент</th>
+                <th>Специалист</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for plan in treatment_plans %}
+            <tr>
+                <td>{{ plan.plan_id }}</td>
+                <td>{{ plan.plan_descriptions }}</td>
+                <td>{{ plan.methods }}</td>
+                <td>{{ plan.start_date }}</td>
+                <td>{{ plan.end_date }}</td>
+                <td>{{ plan.patient.name }} {{ plan.patient.surname }}</td>
+                <td>{{ plan.specialist.name }} {{ plan.specialist.surname }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{{ url_for('index') }}">Вернуться на главную страницу</a>
+</body>
+</html>

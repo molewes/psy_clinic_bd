@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Specialist</title>
+</head>
+<body>
+    <h1>Edit Specialist</h1>
+    <form action="{{ url_for('edit_specialist', specialist_id=specialist.specialist_id) }}" method="POST">
+        <label for="name">Name:</label><br>
+        <input type="text" id="name" name="name" value="{{ specialist.name }}"><br>
+        <label for="surname">Surname:</label><br>
+        <input type="text" id="surname" name="surname" value="{{ specialist.surname }}"><br>
+        <label for="timetable">Timetable:</label><br>
+        <input type="text" id="timetable" name="timetable" value="{{ specialist.timetable }}"><br>
+        <label for="contact_info">Contact Info:</label><br>
+        <input type="text" id="contact_info" name="contact_info" value="{{ specialist.contact_info }}"><br>
+        <label for="specialization_name">Specialization:</label><br>
+        <select id="specialization_name" name="specialization_name">
+            {% for specialization in specializations %}
+            <option value="{{ specialization.specialization_name }}">{{ specialization.specialization_name }}</option>
+            {% endfor %}
+        </select><br>
+        <button type="submit">Save</button>
+    </form>
+    <a href="{{ url_for('specialists') }}">Вернуться к специалистам</a>
+</body>
+</html>

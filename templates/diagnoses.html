@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Диагнозы</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Добавить диагноз</h1>
+    <form action="/add_diagnosis" method="POST">
+        <label for="diagnosis_name">Название диагноза:</label>
+        <input type="text" id="diagnosis_name" name="diagnosis_name" required><br>
+        
+        <label for="description">Описание:</label><br>
+        <textarea id="description" name="description" rows="4" cols="50"></textarea><br>
+        
+        <label for="date_diagnosed">Дата диагноза:</label>
+        <input type="date" id="date_diagnosed" name="date_diagnosed" required><br>
+        
+        <label for="patient_name">Имя пациента:</label>
+        <input type="text" id="patient_name" name="patient_name" required><br>
+        
+        <label for="patient_surname">Фамилия пациента:</label>
+        <input type="text" id="patient_surname" name="patient_surname" required><br>
+        
+        <label for="specialist_name">Имя специалиста:</label>
+        <input type="text" id="specialist_name" name="specialist_name" required><br>
+        
+        <label for="specialist_surname">Фамилия специалиста:</label>
+        <input type="text" id="specialist_surname" name="specialist_surname" required><br>
+        
+        <button type="submit">Добавить диагноз</button>
+    </form>
+    <h1>Список Диагнозов</h1>
+    <form action="{{ url_for('search_diagnoses') }}" method="GET">
+        <input type="text" name="query" placeholder="Поиск по диагнозам">
+        <button type="submit">Найти</button>
+    </form>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Название</th>
+                <th>Описание</th>
+                <th>Дата поставления</th>
+                <th>Пациент</th>
+                <th>Специалист</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for diagnosis in diagnoses %}
+            <tr>
+                <td>{{ diagnosis.diagnosis_id }}</td>
+                <td>{{ diagnosis.diagnosis_name }}</td>
+                <td>{{ diagnosis.description }}</td>
+                <td>{{ diagnosis.date_diagnosed }}</td>
+                <td>{{ diagnosis.patient.name }} {{ diagnosis.patient.surname }}</td>
+                <td>{{ diagnosis.specialist.name }} {{ diagnosis.specialist.surname }}</td>
+                <td>
+                    <form action="{{ url_for('delete_diagnosis', diagnosis_id=diagnosis.diagnosis_id) }}" method="post">
+                        <button type="submit" class="btn btn-danger">Удалить</button>
+                    </form>
+                    <form action="{{ url_for('edit_diagnosis', diagnosis_id=diagnosis.diagnosis_id) }}" method="GET">
+                        <button type="submit">Редактировать</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{{ url_for('index') }}">Вернуться на главную страницу</a>
+</body>
+</html>

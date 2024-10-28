@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Diagnosis</title>
+    <!-- Не забудьте подключить стили и другие необходимые ресурсы -->
+</head>
+<body>
+    <h1>Редактировать диагноз</h1>
+    <form action="{{ url_for('edit_diagnosis', diagnosis_id=diagnosis.diagnosis_id) }}" method="post">
+        <div>
+            <label for="diagnosis_name">Название диагноза</label>
+            <input type="text" id="diagnosis_name" name="diagnosis_name" value="{{ diagnosis.diagnosis_name }}">
+        </div>
+        <div>
+            <label for="description">Описание</label>
+            <textarea id="description" name="description">{{ diagnosis.description }}</textarea>
+        </div>
+        <div>
+            <label for="date_diagnosed">Дата поставления диагноза</label>
+            <input type="date" id="date_diagnosed" name="date_diagnosed" value="{{ diagnosis.date_diagnosed }}">
+        </div>
+        <div>
+            <button type="submit">Сохранить</button>
+        </div>
+    </form>
+</body>
+</html>

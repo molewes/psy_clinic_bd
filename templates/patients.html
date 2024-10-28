@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patients</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h2>Добавить пациента</h2>
+    <form action="{{ url_for('add_patient') }}" method="POST">
+        <label for="name">Имя:</label><br>
+        <input type="text" id="name" name="name"><br>
+        <label for="surname">Фамилия:</label><br>
+        <input type="text" id="surname" name="surname"><br>
+        <label for="date_of_birth">Дата рождения:</label><br>
+        <input type="date" id="date_of_birth" name="date_of_birth"><br>
+        <label for="gender">Пол:</label><br>
+        <select id="gender" name="gender">
+            <option value="Мужской">Мужской</option>
+            <option value="Женский">Женский</option>
+        </select><br>
+        <label for="address">Адрес:</label><br>
+        <input type="text" id="address" name="address"><br>
+        <label for="phone_number">Номер телефона:</label><br>
+        <input type="tel" id="phone_number" name="phone_number"><br>
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email"><br>
+        <button type="submit">Добавить</button>
+    </form>
+    <h2>Пациенты</h2>
+    <form action="{{ url_for('search_patients') }}" method="GET">
+        <input type="text" name="query" placeholder="Поиск по пациентам">
+        <button type="submit">Найти</button>
+    </form>
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Имя</th>
+            <th>Фамилия</th>
+            <th>Дата рождения</th>
+            <th>Пол</th>
+            <th>Адрес</th>
+            <th>Номер телефона</th>
+            <th>Почта</th>
+        </tr>
+        {% for patient in patients %}
+        <tr>
+            <td>{{ patient.patient_id }}</td>
+            <td>{{ patient.name }}</td>
+            <td>{{ patient.surname }}</td>
+            <td>{{ patient.date_of_birth }}</td>
+            <td>{{ patient.gender }}</td>
+            <td>{{ patient.address }}</td>
+            <td>{{ patient.phone_number }}</td>
+            <td>{{ patient.email }}</td>
+            <td>
+                <form action="/edit_patient/{{patient.patient_id}}" method="get">
+                    <button type="submit"> Редактировать</button>
+                </form>
+            </td>
+            <td>
+                <form action="/delete_patient/{{ patient.patient_id }}" method="post">
+                    <button type="submit">Удалить</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    <a href="{{ url_for('index') }}">Вернуться на главную</a>
+</body>
+</html>

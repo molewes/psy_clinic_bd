@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Медикаменты</title>
+</head>
+<body>
+    <h1>Медикаменты</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID Медикамента</th>
+                <th>Наименование</th>
+                <th>Дозировка</th>
+                <th>Инструкция</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for medicament in medicaments %}
+            <tr>
+                <td>{{ medicament.medicament_id }}</td>
+                <td>{{ medicament.medicament_name }}</td>
+                <td>{{ medicament.dosage }}</td>
+                <td>{{ medicament.instruction }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{{ url_for('index') }}">Вернуться на главную страницу</a>
+</body>
+</html>

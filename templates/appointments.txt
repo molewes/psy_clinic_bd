@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Записи на прием</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Записи на прием</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Специалист</th>
+                <th>Пациент</th>
+                <th>Дата приема</th>
+                <th>Статус</th>
+                <th>Примечания</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for appointment in appointments %}
+            <tr>
+                <td>{{ appointment.appointment_id }}</td>
+                <td>{{ appointment.patient.name }} {{ appointment.patient.surname }}</td>
+                <td>{{ appointment.specialist.name }} {{ appointment.specialist.surname }}</td>
+                <td>{{ appointment.appointment_datetime }}</td>
+                <td>{{ appointment.status.status_name }}</td> <!-- Получение названия статуса -->
+                <td>{{ appointment.notes }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{{ url_for('index') }}">Вернуться на главную страницу</a>
+</body>
+</html>

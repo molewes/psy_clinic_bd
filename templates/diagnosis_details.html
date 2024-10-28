@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagnosis Details</title>
+</head>
+<body>
+    <h1>Patients with Diagnosis "{{ diagnosis_info[0][2] }}"</h1>
+    <ul>
+        {% for patient in diagnosis_info %}
+        <li>{{ patient[0] }} {{ patient[1] }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

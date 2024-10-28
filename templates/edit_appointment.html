@@ -1,0 +1,43 @@
+<!-- edit_appointment.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Appointment</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Редактировать запись</h1>
+    <form action="{{ url_for('edit_appointment', appointment_id=appointment.appointment_id) }}" method="POST">
+        <input type="hidden" name="patient_name" value="{{ appointment.patient.name }}" />
+        <input type="hidden" name="specialist_name" value="{{ appointment.specialist.name }}" />
+        <input type="hidden" name="patient_surname" value="{{ appointment.patient.surname }}" />
+        <input type="hidden" name="specialist_surname" value="{{ appointment.specialist.surname }}" />
+        <label for="appointment_datetime">Appointment Date:</label><br>
+        <input type="datetime-local" id="appointment_datetime" name="appointment_datetime" value="{{ appointment.appointment_datetime }}"><br>
+        <label for="status_name">Status:</label><br>
+        <select id="status_name" name="status_name">
+            {% for status in appointments_status %}
+            <option value="{{ status.status_name }}">{{ status.status_name }}</option>
+            {% endfor %}
+        </select><br>
+        <label for="notes">Notes:</label><br>
+        <textarea id="notes" name="notes">{{ appointment.notes }}</textarea><br>
+        <button type="submit">Сохранить</button>
+    </form>
+    <a href="{{ url_for('index') }}">Вернуться на главную страницу</a>
+    <script>
+        // Получаем текущую дату и время
+        var currentDate = new Date();
+        var currentDateTimeString = currentDate.toISOString().slice(0,16); // Преобразуем дату и время в строку в формате "гггг-мм-ддTчч:мм"
+    
+        // Находим поле ввода даты и времени по его ID
+        var dateTimeInput = document.getElementById("appointment_datetime");
+    
+        // Устанавливаем минимальное значение для поля ввода даты и времени
+        dateTimeInput.min = currentDateTimeString;
+    </script>    
+</body>
+</html>

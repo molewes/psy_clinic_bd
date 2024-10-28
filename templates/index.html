@@ -1,0 +1,136 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Psy clinic</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="navbar">
+        <a href="{{ url_for('index') }}">Записи на приём</a>
+        <a href="{{ url_for('patients') }}">Пациенты</a>
+        <a href="{{ url_for('specialists') }}">Специалисты</a>
+        <a href="{{ url_for('diagnoses') }}">Диагнозы</a>
+        <a href="{{ url_for('sessions') }}">Сессии</a>
+        <a href="{{ url_for('treatment_plans') }}">Планы лечения</a>
+        <a href="{{ url_for('prescriptions') }}">Рецепты на лекарства</a>
+    </div>
+
+    <div class="form-container">
+        <h1>Добавление записи на приём</h1>
+        <form action="{{ url_for('add_appointment') }}" method="POST">
+            <label for="patient_id">Пациент:</label>
+            <select id="patient_id" name="patient_id" required>
+                {% for patient in patients %}
+                <option value="{{ patient.patient_id }}">{{ patient.name }} {{ patient.surname }}</option>
+                {% endfor %}
+            </select><br>
+            
+            <label for="specialist_id">Специалист:</label>
+            <select id="specialist_id" name="specialist_id" required>
+                {% for specialist in specialists %}
+                <option value="{{ specialist.specialist_id }}">{{ specialist.name }} {{ specialist.surname }}</option>
+                {% endfor %}
+            </select><br>
+            
+            <label for="appointment_datetime">Дата и время приёма:</label>
+            <input type="datetime-local" id="appointment_datetime" name="appointment_datetime" required><br>
+            
+            <label for="status_name">Статус:</label>
+            <select id="status_name" name="status_name">
+                {% for status in appointments_status %}
+                <option value="{{ status.status_name }}">{{ status.status_name }}</option>
+                {% endfor %}
+            </select><br>
+            
+            <label for="notes">Примечания:</label><br>
+            <textarea id="notes" name="notes" rows="4" cols="50"></textarea><br>
+            
+            <button type="submit">Добавить запись</button>
+        </form>
+    </div>
+
+    <div class="filter-form">
+        <h1>Фильтрация записей на прием</h1>
+        <form action="{{ url_for('index') }}" method="POST">
+            <label for="start_date">Начальная дата:</label>
+            <input type="date" id="start_date" name="start_date" required>
+            <label for="end_date">Конечная дата:</label>
+            <input type="date" id="end_date" name="end_date" required>
+            <label for="specialist_id">Специалист:</label>
+            <select id="specialist_id" name="specialist_id">
+                <option value="">Все</option>
+                {% for specialist in specialists %}
+                <option value="{{ specialist.specialist_id }}">{{ specialist.name }} {{ specialist.surname }}</option>
+                {% endfor %}
+            </select>
+            <label for="patient_id">Пациент:</label>
+            <select id="patient_id" name="patient_id">
+                <option value="">Все</option>
+                {% for patient in patients %}
+                <option value="{{ patient.patient_id }}">{{ patient.name }} {{ patient.surname }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit">Фильтровать</button>
+        </form>
+
+        <form action="{{ url_for('search_appointments') }}" method="GET">
+            <input type="text" name="query" placeholder="Поиск по записям на прием...">
+            <button type="submit">Найти</button>
+        </form>
+    </div>
+
+    <div class="table-container">
+        <h1>Записи на приём</h1>
+        <table>
+            <thead>
+                <tr>
+                    <!-- <th>ID</th> -->
+                    <th>Специалист</th>
+                    <th>Пациент</th>
+                    <th>Дата приёма</th>
+                    <th>Статус</th>
+                    <th>Примечания</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for appointment in appointments %}
+                <tr>
+                    <!-- <td>{{ appointment.appointment_id }}</td> -->
+                    <td >{{ appointment.specialist.name }} {{ appointment.specialist.surname }}</td>
+                    <td >{{ appointment.patient.name }} {{ appointment.patient.surname }}</td>
+                    <td >{{ appointment.appointment_datetime }}</td>
+                    <td >{{ appointment.status.status_name }}</td>
+                    <td >{{ appointment.notes }}</td>
+                    <td>
+                        <form action="{{ url_for('edit_appointment', appointment_id=appointment.appointment_id) }}" method="GET">
+                            <button type="submit">Редактировать</button>
+                        </form>
+                    
+                    </td>
+                    <td>
+                        <form action="{{ url_for('delete_appointment', appointment_id=appointment.appointment_id) }}" method="POST">
+                            <button type="submit">Удалить</button> 
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // Получаем текущую дату и время
+        var currentDate = new Date();
+        var currentDateTimeString = currentDate.toISOString().slice(0,16); // Преобразуем дату и время в строку в формате "гггг-мм-ддTчч:мм"
+
+        // Находим поле ввода даты и времени по его ID
+        var dateTimeInput = document.getElementById("appointment_datetime");
+
+        // Устанавливаем минимальное значение для поля ввода даты и времени
+        dateTimeInput.min = currentDateTimeString;
+    </script>
+</body>
+</html>

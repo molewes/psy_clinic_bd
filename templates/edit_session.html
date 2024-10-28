@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Session</title>
+    <!-- Не забудьте подключить стили и другие необходимые ресурсы -->
+</head>
+<body>
+    <h1>Edit Session</h1>
+    <form action="{{ url_for('edit_session', sessions_id=session.sessions_id) }}" method="post">
+        <div>
+            <label for="start_datetime">Start DateTime</label>
+            <input type="datetime-local" id="start_datetime" name="start_datetime" value="{{ session.start_datetime_str }}">
+        </div>
+        <div>
+            <label for="duration">Duration</label>
+            <input type="text" id="duration" name="duration" value="{{ session.duration }}">
+        </div>
+        <div>
+            <label for="session_type">Session Type</label>
+            <input type="text" id="session_type" name="session_type" value="{{ session.session_type }}">
+        </div>
+        <div>
+            <label for="notes">Notes</label>
+            <textarea id="notes" name="notes">{{ session.notes }}</textarea>
+        </div>
+        <div>
+            <button type="submit">Save</button>
+        </div>
+    </form>
+</body>
+</html>

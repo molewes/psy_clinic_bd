@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Total Session Duration per Patient</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Суммарная продолжительность сеансов каждого пациента</h1>
+    <table class="table-container">
+        <thead>
+            <tr>
+                <th>Имя </th>
+                <th>Фамилия</th>
+                <th>Общее время сессий(в часах)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in data %}
+            <tr>
+                <td>{{ row.name }}</td>
+                <td>{{ row.surname }}</td>
+                <td>{{ row.total_duration_seconds }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

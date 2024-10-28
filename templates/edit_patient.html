@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Patient</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Редактировать пациента</h1>
+    <form action="{{ url_for('edit_patient', patient_id=patient.patient_id) }}" method="POST">
+        <label for="name">Имя:</label><br>
+        <input type="text" id="name" name="name" value="{{ patient.name }}"><br>
+        <label for="surname">Фамилия:</label><br>
+        <input type="text" id="surname" name="surname" value="{{ patient.surname }}"><br>
+        <label for="date_of_birth">Дата рождения:</label><br>
+        <input type="date" id="date_of_birth" name="date_of_birth" value="{{ patient.date_of_birth }}"><br>
+        <label for="gender">Пол:</label><br>
+        <select id="gender" name="gender">
+            <option value="Мужской" {% if patient.gender == 'Мужской' %} selected {% endif %}>Мужской</option>
+            <option value="Женский" {% if patient.gender == 'Женский' %} selected {% endif %}>Женский</option>
+        </select><br>
+        <label for="address">Адрес:</label><br>
+        <input type="text" id="address" name="address" value="{{ patient.address }}"><br>
+        <label for="phone_number">Номер телефона:</label><br>
+        <input type="text" id="phone_number" name="phone_number" value="{{ patient.phone_number }}"><br>
+        <label for="email">Почта:</label><br>
+        <input type="email" id="email" name="email" value="{{ patient.email }}"><br>
+        <button type="submit">Сохранить</button>
+    </form>
+    <a href="{{ url_for('patients') }}">Вернуться к пациентам</a>
+</body>
+</html>
